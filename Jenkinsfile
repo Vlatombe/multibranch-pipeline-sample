@@ -1,1 +1,3 @@
-sh 'env'
+node {
+  sh 'env'
+}
