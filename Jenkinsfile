@@ -4,5 +4,3 @@ node {
   sh 'env'
   sh 'git rev-parse --abbrev-ref HEAD'
 }
-println scm
-println env
