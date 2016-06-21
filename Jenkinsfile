@@ -1,10 +1,10 @@
 stage 'Init'
-step([
-  $class: 'GitHubCommitStatusSetter',
-  contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: 'mystatus']
-])
 node {
   checkout scm
+  step([
+    $class: 'GitHubCommitStatusSetter',
+    contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: 'mystatus']
+  ])
   sh 'echo $BRANCH_NAME'
 }
 if (env.BRANCH_NAME == 'master') {
@@ -14,7 +14,9 @@ if (env.BRANCH_NAME == 'master') {
   stage 'Other branches'
   println "Current branch ${env.BRANCH_NAME}"
 }
+node {
 step([
   $class: 'GitHubCommitStatusSetter',
   contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: 'mystatus']
 ])
+}
