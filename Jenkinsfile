@@ -1,5 +1,5 @@
 node {
-  step([$class: 'GitHubSetCommitStatusBuilder'])
+  step([$class: 'GitHubSetCommitStatusBuilder', reposSource: [$class: 'ManuallyEnteredRepositorySource', url: 'https://github.com/Vlatombe/multibranch-pipeline-sample']])
   stage('checkout') {
     checkout scm
   }
@@ -9,6 +9,6 @@ node {
     
     sh 'echo $BRANCH_NAME'
     currentBuild.result = 'SUCCESS'
-    step([$class: 'GitHubCommitStatusSetter'])
+    step([$class: 'GitHubCommitStatusSetter', reposSource: [$class: 'ManuallyEnteredRepositorySource', url: 'https://github.com/Vlatombe/multibranch-pipeline-sample']])
   }
 }
