@@ -1,17 +1,20 @@
 stage 'Init'
 node {
+  step([$class: 'GitHubSetCommitStatusBuilder'])
   checkout scm
   sh 'git rev-parse HEAD>GIT_COMMIT'
   sha1 = readFile 'GIT_COMMIT'
-  step([
-    $class: 'GitHubCommitStatusSetter',
-    commitShaSource: [$class: 'ManuallyEnteredShaSource', sha: sha1], 
-    contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: 'mystatus']
-  ])
+  
   sh 'echo $BRANCH_NAME'
   step([
     $class: 'GitHubCommitStatusSetter',
-    commitShaSource: [$class: 'ManuallyEnteredShaSource', sha: sha1], 
-    contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: 'mystatus']
+    statusResultSource: [
+      $class: 'ConditionalStatusResultSource',
+      results: [[
+        $class: 'AnyBuildResult',
+        message: 'Build is successful',
+        state: 'SUCCESS'
+      ]]
+    ]
   ])
 }
