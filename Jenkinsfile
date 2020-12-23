@@ -1,7 +1,8 @@
-stage 'Init'
-node {
-  checkout scm
-  sh 'echo $BRANCH_NAME'
+podTemplate {
+  node(POD_LABEL) {
+    checkout scm
+    sh 'echo $BRANCH_NAME'
+  }
 }
 if (env.BRANCH_NAME == 'master') {
   stage 'Only on master'
