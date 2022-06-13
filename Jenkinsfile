@@ -13,7 +13,7 @@ stage('Init') {
     cat toto.txt
     '''
     if (env.CHANGE_TARGET == null) {
-      saveDependenciesCache 'cache'
+      saveDependenciesCache(name: 'cache', includes: 'toto.txt')
     }
   }
   if (env.BRANCH_NAME == 'master') {
