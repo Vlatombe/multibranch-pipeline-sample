@@ -1,9 +1,7 @@
 stage('Init') {
   node {
     checkout scm
-    if (env.CHANGE_TARGET == null) {
-      restoreDependenciesCache 'cache'
-    }
+    restoreDependenciesCache 'cache'
     sh 'echo $BRANCH_NAME'
     sh '''#!/bin/bash -eu
     if [ -f toto.txt ]; then
