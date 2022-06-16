@@ -1,8 +1,10 @@
 stage('Init') {
   node {
     checkout scm
-    restoreDependenciesCache 'cache'
     sh 'echo $BRANCH_NAME'
+    if (env.CHANGE_TARGET != null) {
+      uncache name: 'cache', scopes: [job(env.CHANGE_TARGET)]
+    }
     sh '''#!/bin/bash -eu
     if [ -f toto.txt ]; then
         echo 'toto.txt already exists'
@@ -13,7 +15,7 @@ stage('Init') {
     cat toto.txt
     '''
     if (env.CHANGE_TARGET == null) {
-      saveDependenciesCache(name: 'cache', includes: 'toto.txt')
+      cache name: 'cache', includes: 'toto.txt'
     }
   }
   if (env.BRANCH_NAME == 'master') {
