@@ -1,0 +1,35 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: My automation
+on:
+  push:
+    branches:
+      - "**"
+jobs:
+  build:
+    steps:
+      - uses: docker://golang:1.20.3-alpine3.17
+        name: Build
+        kind: build
+        shell: sh
+        run: |
+          echo "hello world"
+      - uses: docker://golang:1.20.3-alpine3.17
+        name: Test
+        kind: test
+        shell: sh
+        run: |
+          echo "hello world"
+  build-2:
+    steps:
+      - uses: docker://golang:1.20.3-alpine3.17
+        name: Build
+        kind: build
+        shell: sh
+        run: |
+          echo "hello world"
+      - uses: docker://golang:1.20.3-alpine3.17
+        name: Test
+        shell: sh
+        run: |
+          echo "hello world"
